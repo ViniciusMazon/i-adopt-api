@@ -51,7 +51,7 @@ class Pets {
       size	size_type,
       price real,
       image text,
-      organization_id integer,
+      organization_id integer references iad.organization(id),
       creation_date date
       );
     `;

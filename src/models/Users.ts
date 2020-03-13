@@ -25,7 +25,7 @@ class User {
       id serial primary key,
       first_name varchar(25) not null,
       last_name varchar(25) not null,
-      organization integer not null,
+      organization_id integer not null references iad.organization(id),
       email varchar(25) not null,
       hash_password varchar(25) not null
       )
