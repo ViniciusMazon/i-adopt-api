@@ -17,7 +17,7 @@ interface IUserUpdate {
   // hash_password: string
 }
 
-class user {
+class User {
 
   async create_table() {
     const query = `
@@ -41,7 +41,7 @@ class user {
     }
 
     try {
-      await connection.query(query);
+      const result = await connection.query(query);
       return { status: 201, data: userData };
     } catch (error) {
       return { status: 200, data: error };
@@ -90,4 +90,4 @@ class user {
   }
 }
 
-export = user;
+export = User;
