@@ -6,6 +6,7 @@ import SessionController from './controllers/SessionController';
 import PetController from './controllers/PetController';
 import OrganizationController from './controllers/OrganizationController';
 import TutorsController from './controllers/TutorController';
+import Application from './controllers/ApplicationController';
 
 const routes = Router();
 const jwt = new JWT();
@@ -15,6 +16,7 @@ const session = new SessionController();
 const pet = new PetController();
 const organization = new OrganizationController();
 const tutor = new TutorsController();
+const application = new Application();
 
 routes.post('/login', session.login);
 
@@ -38,6 +40,8 @@ routes.delete('/organization', organization.destroy); //Admin
 
 routes.post('/tutors', tutor.store);
 routes.get('/tutors', tutor.show);
+
+routes.post('/application', application.store);
 
 
 
