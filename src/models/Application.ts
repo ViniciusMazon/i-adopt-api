@@ -51,7 +51,15 @@ class Application {
   }
 
   async getAll() {
-
+    const query = `select a.id as application_id, a.pet_id, p.name as pet_name, a.tutor_id, t.first_name as tutor_name, a.date_creation, a.status
+    from iad.applications as a join iad.pets as p on a.pet_id = p.id
+    join iad.tutors as t on a.tutor_id = t.id;`;
+    try {
+      const data = await connection.query(query);
+      return { status: 200, data: data.rows };
+    } catch (error) {
+      return { status: 200, data: error };
+    }
   }
 
   async delete(id: number) {

@@ -41,7 +41,8 @@ routes.delete('/organization', organization.destroy); //Admin
 routes.post('/tutors', tutor.store);
 routes.get('/tutors', tutor.show);
 
-routes.post('/application', application.store);
+routes.post('/applications', application.store);
+routes.get('/applications', application.index);
 
 
 

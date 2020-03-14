@@ -25,9 +25,8 @@ class ApplicationController {
       tutor_id,
       date_creation: date
     }
-    console.log('>>>>>>>>>>>>>>>', applicationData)
+
     const result = await application.set(applicationData);
-    console.log('>>>>>>>>>>>>>>>', result)
     res.status(result.status).json(result.data);
   }
 
