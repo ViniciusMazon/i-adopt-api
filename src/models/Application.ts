@@ -95,8 +95,9 @@ class Application {
     co.area_code,
     co.phone,
     co.email,
-    "a"."id",
+    "a"."id" as id_application,
     "a".date_creation,
+    "a".status,
     pe.image
     FROM
     iad.applications AS "a"
