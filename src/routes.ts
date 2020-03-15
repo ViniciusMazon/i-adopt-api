@@ -43,6 +43,7 @@ routes.get('/tutors', tutor.show);
 
 routes.post('/applications', application.store);
 routes.get('/applications', application.index);
+routes.get('/applications/review', application.show);
 
 
 

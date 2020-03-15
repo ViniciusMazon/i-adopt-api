@@ -33,8 +33,13 @@ class ApplicationController {
   async show(req: Request, res: Response) {
     const application = new Application();
     const id: number = req.query.id;
-    const result = await application.get(id);
-    res.json(result);
+    try {
+      const result = await application.get(id);
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   async index(req: Request, res: Response) {
@@ -43,13 +48,8 @@ class ApplicationController {
     res.status(result.status).json(result.data);
   }
 
-
-
   async destroy(req: Request, res: Response) {
-    const application = new Application();
-    const id: number = req.query.id;
-    const result = await application.delete(id);
-    res.status(result.status).json(result.data);
+
   }
 }
 

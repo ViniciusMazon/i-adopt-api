@@ -62,15 +62,60 @@ class Application {
     }
   }
 
+  async get(id: number) {
+    const query = `
+    SELECT
+    pe."name",
+    pe.specie,
+    pe.gender,
+    pe."size",
+    pe.price,
+    "t".first_name,
+    "t".last_name,
+    "t".date_of_birth,
+    "t".marital_status,
+    "t".profession,
+    ad.street,
+    ad.neighborhood,
+    ad.num,
+    ad.city,
+    ad.region,
+    ad.zip_code,
+    ad.type_of_residence,
+    ad.adult_residents,
+    ad.children_residents,
+    ad.has_smokers,
+    h.already_adopted,
+    h.animals_home,
+    h.animals_home_description,
+    h.sick_animals_home,
+    h.add_budget_spend,
+    h.why_want_adopt,
+    h.have_questions,
+    co.area_code,
+    co.phone,
+    co.email,
+    "a"."id",
+    "a".date_creation,
+    pe.image
+    FROM
+    iad.applications AS "a"
+    JOIN iad.pets AS pe ON "a".pet_id = pe."id"
+    JOIN iad.tutors AS "t" ON "a".tutor_id = "t"."id"
+    JOIN iad.address AS ad ON "t".address_id = ad."id"
+    JOIN iad.historics AS h ON "t".historic_id = h."id"
+    JOIN iad.contacts AS co ON "t".contact_id = co."id"
+    WHERE
+    "a"."id" = ${id};
+    `
+    const data = await connection.query(query);
+    return data.rows[0];
+  }
+
   async delete(id: number) {
 
   }
 
-  async get(id: number) {
-    const query = `select * from iad.application where id=${id}`
-    const data = await connection.query(query);
-    return data.rows[0];
-  }
 }
 
 export = Application;
