@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import moment from 'moment';
 import Application from '../models/Application';
 
+enum status_type {
+  'accept', 'new', 'adopted', 'canceled', 'rejected'
+}
+
 interface IApplicationData {
   pet_id: number,
   tutor_id: number,
@@ -46,6 +50,19 @@ class ApplicationController {
     const application = new Application();
     const result = await application.getAll();
     res.status(result.status).json(result.data);
+  }
+
+  async update(req: Request, res: Response) {
+    const application = new Application();
+    const id: number = req.query.id;
+    const status: status_type = req.body.status;
+    try {
+      const result = await application.setStatus(id, status);
+      res.json('Status changed')
+    } catch (error) {s
+      res.json('Error')
+    }
+
   }
 
   async destroy(req: Request, res: Response) {

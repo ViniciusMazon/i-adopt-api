@@ -41,11 +41,10 @@ routes.delete('/organization', organization.destroy); //Admin
 routes.post('/tutors', tutor.store);
 routes.get('/tutors', tutor.show);
 
-routes.post('/applications', application.store);
-routes.get('/applications', application.index);
-routes.get('/applications/review', application.show);
-
-
+routes.post('/applications', jwt.verify, application.store);
+routes.get('/applications', jwt.verify, application.index);
+routes.get('/applications/review', jwt.verify, application.show);
+routes.put('/applications/status', jwt.verify, application.update);
 
 routes.get('/ping', (req, res) => res.send('pong')); //Public (test route)
 

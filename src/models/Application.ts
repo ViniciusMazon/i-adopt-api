@@ -113,6 +113,11 @@ class Application {
     return data.rows[0];
   }
 
+  async setStatus(id: number, status: status_type) {
+    const query = `update iad.applications set status = '${status}' where id = ${id};`;
+    await connection.query(query);
+  }
+
   async delete(id: number) {
 
   }
