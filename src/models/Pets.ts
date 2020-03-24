@@ -61,13 +61,13 @@ class Pets {
 
   async set(petData: IPetsData) {
     const query = {
-      text: `insert into iad.pets (name, specie, gender, size, price, image, organization_id, creation_date) values($1, $2, $3, $4, $5, $6, $7, $8)`,
+      text: `insert into iad.pets (name, specie, gender, size, price, image, organization_id, creation_date) values($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
       values: [petData.name, petData.specie, petData.gender, petData.size, petData.price, petData.image, petData.organization_id, petData.creation_date]
     }
 
     try {
-      await connection.query(query);
-      return { status: 201, data: petData };
+      const response = await connection.query(query);
+      return { status: 201, data: response.rows[0] };
     } catch (error) {
       return { status: 200, data: error };
     }
@@ -97,11 +97,11 @@ class Pets {
     size = '${petUpdate.size}',
     price = '${petUpdate.price}',
     image = '${petUpdate.image}'
-    where id = ${petUpdate.id}`;
+    where id = ${petUpdate.id} returning *`;
 
     try {
-      await connection.query(query);
-      return { status: 200, data: 'Pet edited successfully' };
+      const resonse = await connection.query(query);
+      return { status: 200, data: resonse.rows[0]};
     } catch (error) {
       return { status: 200, data: error };
     }
