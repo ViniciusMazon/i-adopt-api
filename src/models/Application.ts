@@ -114,8 +114,8 @@ class Application {
   }
 
   async setStatus(id: number, status: status_type) {
-    const query = `update iad.applications set status = '${status}' where id = ${id};`;
-    await connection.query(query);
+    const query = `update iad.applications set status = '${status}' where id = ${id} returning id;`;
+    return await connection.query(query);
   }
 
   async delete(id: number) {

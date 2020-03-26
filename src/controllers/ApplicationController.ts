@@ -58,8 +58,8 @@ class ApplicationController {
     const status: status_type = req.body.status;
     try {
       const result = await application.setStatus(id, status);
-      res.json('Status changed')
-    } catch (error) {s
+      res.json(result.rows[0]);
+    } catch (error) {
       res.json('Error')
     }
 
