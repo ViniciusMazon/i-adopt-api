@@ -3,7 +3,7 @@ import connection from '../database/connection';
 interface IUserData {
   first_name: string,
   last_name: string,
-  organization: number,
+  organization_id: number,
   email: string,
   hash_password: string,
   creation_date: Date
@@ -27,7 +27,8 @@ class User {
       last_name varchar(25) not null,
       organization_id integer not null references iad.organization(id),
       email varchar(25) not null,
-      hash_password varchar(25) not null
+      hash_password varchar(100) not null,
+      creation_date date not null
       )
     `;
 
@@ -36,16 +37,13 @@ class User {
 
   async set(userData: IUserData) {
     const query = {
-      text: `insert into iad.users (first_name, last_name, organization, email, hash_password, creation_date) values($1, $2, $3, $4, $5, $6)`,
-      values: [userData.first_name, userData.last_name, userData.organization, userData.email, userData.hash_password, userData.creation_date]
+      text: `insert into iad.users (first_name, last_name, organization_id, email, hash_password, creation_date) values($1, $2, $3, $4, $5, $6) returning *`,
+      values: [userData.first_name, userData.last_name, userData.organization_id, userData.email, userData.hash_password, userData.creation_date]
     }
-
-    try {
-      const result = await connection.query(query);
-      return { status: 201, data: userData };
-    } catch (error) {
-      return { status: 200, data: error };
-    }
+    console.log(userData)
+    const result = await connection.query(query);
+    console.log(result)
+    return result.rows[0];
   }
 
   async get(email: string) {

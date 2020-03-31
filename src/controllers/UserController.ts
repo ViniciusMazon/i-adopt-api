@@ -6,7 +6,7 @@ import Bcrypt from '../helpers/Bcrypt';
 interface IUserData {
   first_name: string,
   last_name: string,
-  organization: number,
+  organization_id: number,
   email: string,
   hash_password: string,
   creation_date: Date
@@ -39,20 +39,20 @@ class UsersController {
     const user = new Users();
     const bcrypt = new Bcrypt();
 
-    const { first_name, last_name, organization, email, password } = req.body;
+    const { first_name, last_name, organization_id, email, password } = req.body;
     const hash_password = await bcrypt.encrypt(password);
     const date = new Date(moment().format('YYYY-MM-DD'));
 
     const userData: IUserData = {
       first_name,
       last_name,
-      organization,
+      organization_id,
       email,
       hash_password,
       creation_date: date
     }
     const result = await user.set(userData);
-    res.status(result.status).json(result.data);
+    res.json(result);
   }
 
   async update(req: Request, res: Response) {

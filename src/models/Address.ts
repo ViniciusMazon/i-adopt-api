@@ -20,7 +20,6 @@ interface IAddressData {
 class Address {
   async create_table() {
     const query = `
-    create type type_residence as enum ('house','apartment','farm');
     create table if not exists iad.address (
         id serial primary key,
         street varchar(25) not null,

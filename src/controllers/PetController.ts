@@ -20,7 +20,7 @@ interface IPetsData {
   gender: gender,
   size: size,
   price: number,
-  image: string,
+  id_image: number,
   organization_id: number,
   creation_date: Date
 }
@@ -32,14 +32,15 @@ interface IPetsUpdate {
   gender: gender,
   size: size,
   price: number,
-  image: string,
+  id_image: number,
 }
 
 class PetController {
+
   async store(req: Request, res: Response) {
     const pet = new Pets();
     const date = new Date(moment().format('YYYY-MM-DD'));
-    const { name, specie, gender, size, price, image, organization_id } = req.body;
+    const { name, specie, gender, size, price, id_image, organization_id } = req.body;
 
     const petData: IPetsData = {
       name,
@@ -47,7 +48,7 @@ class PetController {
       gender,
       size,
       price,
-      image,
+      id_image,
       organization_id,
       creation_date: date
     }
@@ -71,7 +72,7 @@ class PetController {
 
   async update(req: Request, res: Response) {
     const pet = new Pets();
-    const { id, name, specie, gender, size, price, image } = req.body;
+    const { id, name, specie, gender, size, price, id_image } = req.body;
 
     const petUpdate: IPetsUpdate = {
       id,
@@ -80,7 +81,7 @@ class PetController {
       gender,
       size,
       price,
-      image
+      id_image
     }
 
     const result = await pet.edit(petUpdate);

@@ -1,9 +1,13 @@
 import { Router } from 'express';
+import multer from 'multer';
+
+import multerConfig from './config/Multer';
 import JWT from './auth/JWT';
 
 import UserController from './controllers/UserController';
 import SessionController from './controllers/SessionController';
 import PetController from './controllers/PetController';
+import PetImageController from './controllers/PetImagesController';
 import OrganizationController from './controllers/OrganizationController';
 import TutorsController from './controllers/TutorController';
 import Application from './controllers/ApplicationController';
@@ -14,6 +18,7 @@ const jwt = new JWT();
 const user = new UserController()
 const session = new SessionController();
 const pet = new PetController();
+const petImage = new PetImageController();
 const organization = new OrganizationController();
 const tutor = new TutorsController();
 const application = new Application();
@@ -25,6 +30,9 @@ routes.post('/users', user.store); //Public
 routes.put('/users', user.update); //Admin
 routes.delete('/users', user.destroy); //Admin
 routes.get('/users/credentials', user.show); //Admin
+
+routes.post('/petsimage', multer(multerConfig).single('file'), petImage.store);
+
 
 routes.post('/pets', jwt.verify, pet.store); //Restricted
 routes.get('/pets', jwt.verify, pet.index); //Restricted

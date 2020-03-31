@@ -14,8 +14,6 @@ class Application {
 
   async create_table() {
     const query = `
-    create type status_type as enum ('accept', 'new', 'adopted', 'canceled', 'rejected');
-
     create table if not exists iad.applications (
       id serial primary key,
       pet_id integer not null references iad.pets(id),

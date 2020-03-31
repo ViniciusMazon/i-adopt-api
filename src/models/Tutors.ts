@@ -19,8 +19,6 @@ class Tutors {
 
   async create_table() {
     const query = `
-    create type marital_status as enum ('single', 'married', 'divorced', 'widower');
-
     create table if not exists iad.tutors (
           id serial primary key,
           first_name varchar(25) not null,

@@ -1,0 +1,31 @@
+import { Request, Response } from 'express';
+import moment from 'moment';
+import PetImage from '../models/PetImage';
+
+interface IPetsImage {
+  name: string,
+  size: number,
+  url: string,
+  creation_date: Date
+}
+
+class PetImageController {
+  async store(req: Request, res: Response) {
+    const petImage = new PetImage();
+    const date = new Date(moment().format('YYYY-MM-DD'));
+
+    const { originalname: name, size, key } = req.file;
+
+    const petImageData: IPetsImage = {
+      name,
+      size,
+      url: `/files/${key}`,
+      creation_date: date
+    }
+
+    const result = await petImage.set(petImageData);
+    res.json(result);
+  }
+}
+
+export = PetImageController;

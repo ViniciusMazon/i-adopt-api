@@ -18,7 +18,7 @@ interface IPetsData {
   gender: gender,
   size: size,
   price: number,
-  image: string,
+  id_image: number,
   organization_id: number,
   creation_date: Date
 }
@@ -30,19 +30,13 @@ interface IPetsUpdate {
   gender: gender,
   size: size,
   price: number,
-  image: string,
+  id_image: number,
 }
 
 class Pets {
 
   async create_table() {
     const query = `
-      create type specie_type as enum ('dog', 'cat');
-
-      create type gender_type as enum ('male', 'female');
-
-      create type size_type as enum ('small', 'medium', 'big');
-
       create table if not exists iad.pets (
       id serial primary key,
       name varchar(25),
@@ -50,7 +44,7 @@ class Pets {
       gender gender_type,
       size	size_type,
       price real,
-      image text,
+      id_image integer references iad.petImages(id),
       organization_id integer references iad.organization(id),
       creation_date date
       );
@@ -61,7 +55,7 @@ class Pets {
 
   async set(petData: IPetsData) {
     const query = {
-      text: `insert into iad.pets (name, specie, gender, size, price, image, organization_id, creation_date) values($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
+      text: `insert into iad.pets (name, specie, gender, size, price, id_image, organization_id, creation_date) values($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
       values: [petData.name, petData.specie, petData.gender, petData.size, petData.price, petData.image, petData.organization_id, petData.creation_date]
     }
 
@@ -96,7 +90,7 @@ class Pets {
     gender = '${petUpdate.gender}',
     size = '${petUpdate.size}',
     price = '${petUpdate.price}',
-    image = '${petUpdate.image}'
+    id_image = '${petUpdate.image}'
     where id = ${petUpdate.id} returning *`;
 
     try {
