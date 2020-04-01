@@ -59,7 +59,8 @@ class PetController {
 
   async index(req: Request, res: Response) {
     const pet = new Pets();
-    const result = await pet.getAll();
+    const organization_id = req.query.organization_id;
+    const result = await pet.getAll(organization_id);
     res.status(result.status).json(result.data);
   }
 

@@ -19,7 +19,7 @@ class PetImageController {
     const petImageData: IPetsImage = {
       name,
       size,
-      url: `/files/${key}`,
+      url: `http://localhost:4000/files/${key}`,
       creation_date: date
     }
 

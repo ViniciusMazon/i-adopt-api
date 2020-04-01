@@ -56,7 +56,7 @@ class Pets {
   async set(petData: IPetsData) {
     const query = {
       text: `insert into iad.pets (name, specie, gender, size, price, id_image, organization_id, creation_date) values($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
-      values: [petData.name, petData.specie, petData.gender, petData.size, petData.price, petData.image, petData.organization_id, petData.creation_date]
+      values: [petData.name, petData.specie, petData.gender, petData.size, petData.price, petData.id_image, petData.organization_id, petData.creation_date]
     }
 
     try {
@@ -67,8 +67,8 @@ class Pets {
     }
   }
 
-  async getAll() {
-    const query = `select * from iad.pets`;
+  async getAll(organization_id) {
+    const query = `select p.*, i.url from iad.pets as p join iad.petimages as i on p.id_image = i.id where organization_id = ${organization_id}`;
     try {
       const data = await connection.query(query);
       return { status: 200, data: data.rows };

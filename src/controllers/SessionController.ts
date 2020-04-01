@@ -16,7 +16,7 @@ class SessionController {
       const match = await bcrypt.auth(userHanddler.password, userDb.hash_password);
       if (match) {
         const jwt = new JWT();
-        const token = jwt.sign(userDb.id, userDb.first_name, userDb.organization);
+        const token = jwt.sign(userDb.id, userDb.first_name, userDb.organization_id);
         return res.status(200).json(token);
       }
     }
