@@ -32,6 +32,7 @@ routes.delete('/users', user.destroy); //Admin
 routes.get('/users/credentials', user.show); //Admin
 
 routes.post('/petsimage', multer(multerConfig).single('file'), petImage.store);
+routes.delete('/petsimage', petImage.destroy);
 
 
 routes.post('/pets', jwt.verify, pet.store); //Restricted

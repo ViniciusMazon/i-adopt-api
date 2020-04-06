@@ -67,8 +67,12 @@ class PetController {
   async show(req: Request, res: Response) {
     const pet = new Pets()
     const id: number = req.query.id;
-    const result = await pet.get(id);
-    res.json(result);
+    try {
+      const result = await pet.get(id);
+      res.json(result);
+    } catch(err) {
+      res.json(err);
+    }
   }
 
   async update(req: Request, res: Response) {

@@ -31,6 +31,11 @@ class PetImage {
     return response.rows[0];
   }
 
+  async delete(id: number) {
+    const query = `delete from iad.petimages where id = ${id}`;
+    await connection.query(query);
+  }
+
 }
 
 export = PetImage;

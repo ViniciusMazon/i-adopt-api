@@ -67,7 +67,7 @@ class Pets {
     }
   }
 
-  async getAll(organization_id) {
+  async getAll(organization_id: number) {
     const query = `select p.*, i.url from iad.pets as p join iad.petimages as i on p.id_image = i.id where organization_id = ${organization_id}`;
     try {
       const data = await connection.query(query);
@@ -78,9 +78,10 @@ class Pets {
   }
 
   async get(id: number) {
-    const query = `select * from iad.pets where id = '${id}'`;
+    const query = `select p.*, i.url from iad.pets as p join iad.petimages as i on p.id_image = i.id where p.id = ${id}`;
     const data = await connection.query(query);
-    return data.rows[0]
+    console.log(data);
+    return data.rows[0];
   }
 
   async edit(petUpdate: IPetsUpdate) {
@@ -90,7 +91,7 @@ class Pets {
     gender = '${petUpdate.gender}',
     size = '${petUpdate.size}',
     price = '${petUpdate.price}',
-    id_image = '${petUpdate.image}'
+    id_image = '${petUpdate.id_image}'
     where id = ${petUpdate.id} returning *`;
 
     try {

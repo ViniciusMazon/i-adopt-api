@@ -26,6 +26,17 @@ class PetImageController {
     const result = await petImage.set(petImageData);
     res.json(result);
   }
+
+  async destroy(req: Request, res: Response) {
+    const petImage = new PetImage();
+    const id: number = req.query.id;
+    try {
+      petImage.delete(id);
+      return res.json({ message: 'ok' });
+    } catch (err) {
+      return res.json({ message: err });
+    }
+  }
 }
 
 export = PetImageController;
