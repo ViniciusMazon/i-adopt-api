@@ -49,9 +49,9 @@ class Application {
   }
 
   async getAll() {
-    const query = `select a.id as application_id, a.pet_id, p.name as pet_name, a.tutor_id, t.first_name as tutor_name, a.date_creation, a.status
-    from iad.applications as a join iad.pets as p on a.pet_id = p.id
-    join iad.tutors as t on a.tutor_id = t.id;`;
+    const query = `select a.id as application_id, a.pet_id, p.name as pet_name, pi.url as pet_url, a.tutor_id, t.first_name as tutor_name, a.date_creation, a.status
+    from iad.applications as a join iad.pets as p on a.pet_id = p.id join iad.petimages as pi on p.id_image = pi.id
+    join iad.tutors as t on a.tutor_id = t.id`;
     try {
       const data = await connection.query(query);
       return { status: 200, data: data.rows };
@@ -68,6 +68,7 @@ class Application {
     pe.gender,
     pe."size",
     pe.price,
+		pi.url,
     "t".first_name,
     "t".last_name,
     "t".date_of_birth,
@@ -96,17 +97,18 @@ class Application {
     "a"."id" as id_application,
     "a".date_creation,
     "a".status,
-    pe.image
+    pe.id_image
     FROM
     iad.applications AS "a"
     JOIN iad.pets AS pe ON "a".pet_id = pe."id"
+		JOIN iad.petimages AS pi on "pi".id = pe."id_image"
     JOIN iad.tutors AS "t" ON "a".tutor_id = "t"."id"
     JOIN iad.address AS ad ON "t".address_id = ad."id"
     JOIN iad.historics AS h ON "t".historic_id = h."id"
     JOIN iad.contacts AS co ON "t".contact_id = co."id"
     WHERE
     "a"."id" = ${id};
-    `
+    `;
     const data = await connection.query(query);
     return data.rows[0];
   }
