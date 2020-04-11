@@ -10,7 +10,8 @@ import PetController from './controllers/PetController';
 import PetImageController from './controllers/PetImagesController';
 import OrganizationController from './controllers/OrganizationController';
 import TutorsController from './controllers/TutorController';
-import Application from './controllers/ApplicationController';
+import ApplicationController from './controllers/ApplicationController';
+import OrganizationReportController from './controllers/OrganizationReportController';
 
 const routes = Router();
 const jwt = new JWT();
@@ -21,7 +22,8 @@ const pet = new PetController();
 const petImage = new PetImageController();
 const organization = new OrganizationController();
 const tutor = new TutorsController();
-const application = new Application();
+const application = new ApplicationController();
+const organizationReport = new OrganizationReportController();
 
 routes.post('/login', session.login);
 
@@ -54,6 +56,8 @@ routes.post('/applications', jwt.verify, application.store);
 routes.get('/applications', jwt.verify, application.index);
 routes.get('/applications/review', jwt.verify, application.show);
 routes.put('/applications/status', jwt.verify, application.update);
+
+routes.get('/report/organization', organizationReport.show);
 
 routes.get('/ping', (req, res) => res.send('pong')); //Public (test route)
 
