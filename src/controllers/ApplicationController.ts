@@ -48,8 +48,18 @@ class ApplicationController {
 
   async index(req: Request, res: Response) {
     const application = new Application();
-    const result = await application.getAll();
-    res.status(result.status).json(result.data);
+    const organization_id: number = req.query.organization_id;
+    const page: number = parseInt(req.query.page);
+    const result = await application.getAll(organization_id);
+    const applications = result.data.slice(page - 1, page + 4);
+    const totalPages = Math.ceil(result.data.length / 5);
+    const data = {
+      applications,
+      page,
+      total: totalPages
+    }
+
+    res.json(data);
   }
 
   async update(req: Request, res: Response) {

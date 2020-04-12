@@ -48,10 +48,24 @@ class Application {
     }
   }
 
-  async getAll() {
-    const query = `select a.id as application_id, a.pet_id, p.name as pet_name, pi.url as pet_url, a.tutor_id, t.first_name as tutor_name, a.date_creation, a.status
-    from iad.applications as a join iad.pets as p on a.pet_id = p.id join iad.petimages as pi on p.id_image = pi.id
-    join iad.tutors as t on a.tutor_id = t.id`;
+  async getAll(organization_id: number) {
+    const query = `
+      SELECT
+        A.id AS application_id,
+        A.pet_id,
+        P.name AS pet_name,
+        PI.url AS pet_url,
+        A.tutor_id,
+        T.first_name AS tutor_name,
+        A.date_creation,
+        A.status
+      FROM
+        iad.applications
+        AS A JOIN iad.pets AS P ON A.pet_id = P.id
+        JOIN iad.petimages AS PI ON P.id_image = PI.id
+        JOIN iad.tutors AS T ON A.tutor_id = T.id
+        WHERE P.organization_id = ${organization_id};
+    `;
     try {
       const data = await connection.query(query);
       return { status: 200, data: data.rows };
@@ -116,10 +130,6 @@ class Application {
   async setStatus(id: number, status: status_type) {
     const query = `update iad.applications set status = '${status}' where id = ${id} returning id;`;
     return await connection.query(query);
-  }
-
-  async delete(id: number) {
-
   }
 
 }

@@ -60,8 +60,16 @@ class PetController {
   async index(req: Request, res: Response) {
     const pet = new Pets();
     const organization_id = req.query.organization_id;
+    const page: number = parseInt(req.query.page);
     const result = await pet.getAll(organization_id);
-    res.status(result.status).json(result.data);
+    const pets = result.data.slice(page - 1, page + 4);
+    const totalPages = Math.ceil(result.data.length / 5);
+    const data = {
+      pets,
+      page,
+      total: totalPages
+    }
+    res.json(data);
   }
 
   async show(req: Request, res: Response) {
@@ -70,7 +78,7 @@ class PetController {
     try {
       const result = await pet.get(id);
       res.json(result);
-    } catch(err) {
+    } catch (err) {
       res.json(err);
     }
   }
