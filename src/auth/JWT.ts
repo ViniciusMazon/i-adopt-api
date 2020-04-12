@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 class JWT {
 
   sign(user_id: number, user_name: string, org_id: number) {
-    const token = jwt.sign({ user_id, user_name, org_id }, process.env.TOKEN_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ user_id, user_name, org_id }, process.env.TOKEN_SECRET, { expiresIn: '1d' });
     return { authorization: `Bearer ${token}` }
   }
 
