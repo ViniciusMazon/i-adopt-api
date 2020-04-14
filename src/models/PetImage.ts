@@ -23,7 +23,7 @@ class PetImage {
 
   async set(petImage: IPetsImage) {
     const query = {
-      text: `insert into iad.petImages(name, size, url, creation_date) values($1, $2, $3, $4) returning id`,
+      text: `insert into iad.petImages(name, size, url, creation_date) values($1, $2, $3, $4) returning id, url`,
       values: [petImage.name, petImage.size, petImage.url, petImage.creation_date]
     }
 

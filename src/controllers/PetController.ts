@@ -62,12 +62,16 @@ class PetController {
     const organization_id = req.query.organization_id;
     const page: number = parseInt(req.query.page);
     const result = await pet.getAll(organization_id);
-    const pets = result.data.slice(page - 1, page + 4);
+    const sliceBegin = (page - 1) * 5;
+    const sliceEnd = sliceBegin + 5;
+    const pets = result.data.slice(sliceBegin, sliceEnd);
     const totalPages = Math.ceil(result.data.length / 5);
     const data = {
       pets,
       page,
-      total: totalPages
+      total: totalPages,
+      inicio: sliceBegin,
+      fim: sliceEnd
     }
     res.json(data);
   }

@@ -51,12 +51,14 @@ class ApplicationController {
     const organization_id: number = req.query.organization_id;
     const page: number = parseInt(req.query.page);
     const result = await application.getAll(organization_id);
-    const applications = result.data.slice(page - 1, page + 4);
+    const sliceBegin = (page - 1) * 5;
+    const sliceEnd = sliceBegin + 5;
+    const applications = result.data.slice(sliceBegin, sliceEnd);
     const totalPages = Math.ceil(result.data.length / 5);
     const data = {
       applications,
       page,
-      total: totalPages
+      total: totalPages,
     }
 
     res.json(data);
