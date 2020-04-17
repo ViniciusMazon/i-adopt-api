@@ -43,18 +43,25 @@ class ApplicationController {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   async index(req: Request, res: Response) {
     const application = new Application();
     const organization_id: number = req.query.organization_id;
     const page: number = parseInt(req.query.page);
-    const result = await application.getAll(organization_id);
+    const status = req.query.status;
+
+    const filters = {
+      status
+    }
+
+    const result = await application.getAll(organization_id, filters);
+
     const sliceBegin = (page - 1) * 5;
     const sliceEnd = sliceBegin + 5;
-    const applications = result.data.slice(sliceBegin, sliceEnd);
-    const totalPages = Math.ceil(result.data.length / 5);
+    const applications = result.slice(sliceBegin, sliceEnd);
+    const totalPages = Math.ceil(result.length / 5);
+
     const data = {
       applications,
       page,

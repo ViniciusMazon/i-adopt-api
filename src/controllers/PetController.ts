@@ -59,13 +59,26 @@ class PetController {
 
   async index(req: Request, res: Response) {
     const pet = new Pets();
+
     const organization_id = req.query.organization_id;
     const page: number = parseInt(req.query.page);
-    const result = await pet.getAll(organization_id);
+
+    const specie = req.query.specie;
+    const gender = req.query.gender;
+    const size = req.query.size;
+    const filters = {
+      specie,
+      gender,
+      size
+    }
+
+    const result = await pet.getAll(organization_id, filters);
+
     const sliceBegin = (page - 1) * 5;
     const sliceEnd = sliceBegin + 5;
-    const pets = result.data.slice(sliceBegin, sliceEnd);
-    const totalPages = Math.ceil(result.data.length / 5);
+    const pets = result.slice(sliceBegin, sliceEnd);
+    const totalPages = Math.ceil(result.length / 5);
+
     const data = {
       pets,
       page,
@@ -73,6 +86,7 @@ class PetController {
       inicio: sliceBegin,
       fim: sliceEnd
     }
+
     res.json(data);
   }
 

@@ -48,7 +48,7 @@ class Application {
     }
   }
 
-  async getAll(organization_id: number) {
+  async getAll(organization_id: number, filters) {
     const query = `
       SELECT
         A.id AS application_id,
@@ -64,14 +64,12 @@ class Application {
         AS A JOIN iad.pets AS P ON A.pet_id = P.id
         JOIN iad.petimages AS PI ON P.id_image = PI.id
         JOIN iad.tutors AS T ON A.tutor_id = T.id
-        WHERE P.organization_id = ${organization_id};
+        WHERE P.organization_id = ${organization_id}
+        AND A.status IN (${filters.status});
     `;
-    try {
-      const data = await connection.query(query);
-      return { status: 200, data: data.rows };
-    } catch (error) {
-      return { status: 200, data: error };
-    }
+
+    const data = await connection.query(query);
+    return data.rows;
   }
 
   async get(id: number) {

@@ -67,14 +67,23 @@ class Pets {
     }
   }
 
-  async getAll(organization_id: number) {
-    const query = `select p.*, i.url from iad.pets as p join iad.petimages as i on p.id_image = i.id where organization_id = ${organization_id}`;
-    try {
-      const data = await connection.query(query);
-      return { status: 200, data: data.rows };
-    } catch (error) {
-      return { status: 200, data: error };
-    }
+  async getAll(organization_id: number, filters) {
+    const query = `
+      SELECT
+        P.*,
+        I.url
+      FROM
+        iad.pets AS P
+        JOIN iad.petimages AS I ON P.id_image = I.id
+      WHERE
+        organization_id = ${organization_id}
+        AND P.gender IN (${filters.gender})
+        AND P.specie IN (${filters.specie})
+        AND P.size IN (${filters.size});
+    `;
+
+    const data = await connection.query(query);
+    return data.rows;
   }
 
   async get(id: number) {
@@ -96,7 +105,7 @@ class Pets {
 
     try {
       const resonse = await connection.query(query);
-      return { status: 200, data: resonse.rows[0]};
+      return { status: 200, data: resonse.rows[0] };
     } catch (error) {
       return { status: 200, data: error };
     }
