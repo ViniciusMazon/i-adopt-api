@@ -92,9 +92,11 @@ class PetController {
 
   async show(req: Request, res: Response) {
     const pet = new Pets()
-    const id: number = req.query.id;
+    const id: number = req.query.id || 0;
+    const name: string = req.query.name || '';
+
     try {
-      const result = await pet.get(id);
+      const result = await pet.get(id, name);
       res.json(result);
     } catch (err) {
       res.json(err);

@@ -86,11 +86,21 @@ class Pets {
     return data.rows;
   }
 
-  async get(id: number) {
-    const query = `select p.*, i.url from iad.pets as p join iad.petimages as i on p.id_image = i.id where p.id = ${id}`;
+  async get(id: number, name: string) {
+    const query = `
+      SELECT
+        P.*,
+        I.url
+      FROM
+        iad.pets AS P
+      JOIN iad.petimages AS I
+      ON P.id_image = I.id
+      WHERE
+        P.id = ${id}
+        OR P.name = '${name}'`;
+
     const data = await connection.query(query);
-    console.log(data);
-    return data.rows[0];
+    return data.rows;
   }
 
   async edit(petUpdate: IPetsUpdate) {
