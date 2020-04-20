@@ -36,12 +36,26 @@ class ApplicationController {
 
   async show(req: Request, res: Response) {
     const application = new Application();
-    const id: number = req.query.id;
+    const id: number = req.query.id || 0;
+    const pet_name: string = req.query.pet_name || '';
+    const page: number = parseInt(req.query.page) || 1;
+
+
+
     try {
-      const result = await application.get(id);
-      res.json(result);
-    } catch (error) {
-      console.log(error);
+      const result = await application.get(id, pet_name);
+      const sliceBegin = (page - 1) * 5;
+      const sliceEnd = sliceBegin + 5;
+      const applications = result.slice(sliceBegin, sliceEnd);
+      const totalPages = Math.ceil(result.length / 5);
+      const data = {
+        applications,
+        page,
+        total: totalPages,
+      }
+      res.json(data);
+    } catch (err) {
+      res.json(err);
     }
   }
 

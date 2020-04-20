@@ -72,57 +72,58 @@ class Application {
     return data.rows;
   }
 
-  async get(id: number) {
+  async get(id: number, pet_name: string) {
     const query = `
-    SELECT
-    pe."name",
-    pe.specie,
-    pe.gender,
-    pe."size",
-    pe.price,
-		pi.url,
-    "t".first_name,
-    "t".last_name,
-    "t".date_of_birth,
-    "t".marital_status,
-    "t".profession,
-    ad.street,
-    ad.neighborhood,
-    ad.num,
-    ad.city,
-    ad.region,
-    ad.zip_code,
-    ad.type_of_residence,
-    ad.adult_residents,
-    ad.children_residents,
-    ad.has_smokers,
-    h.already_adopted,
-    h.animals_home,
-    h.animals_home_description,
-    h.sick_animals_home,
-    h.add_budget_spend,
-    h.why_want_adopt,
-    h.have_questions,
-    co.area_code,
-    co.phone,
-    co.email,
-    "a"."id" as id_application,
-    "a".date_creation,
-    "a".status,
-    pe.id_image
-    FROM
-    iad.applications AS "a"
-    JOIN iad.pets AS pe ON "a".pet_id = pe."id"
-		JOIN iad.petimages AS pi on "pi".id = pe."id_image"
-    JOIN iad.tutors AS "t" ON "a".tutor_id = "t"."id"
-    JOIN iad.address AS ad ON "t".address_id = ad."id"
-    JOIN iad.historics AS h ON "t".historic_id = h."id"
-    JOIN iad.contacts AS co ON "t".contact_id = co."id"
-    WHERE
-    "a"."id" = ${id};
+      SELECT
+        P.id as pet_id,
+        P.name,
+        P.specie,
+        P.gender,
+        P.size,
+        P.price,
+        PI.url as pet_url,
+        T.id as tutor_id,
+        T.first_name as tutor_name,
+        T.last_name as tutor_last_name,
+        T.date_of_birth,
+        T.marital_status,
+        T.profession,
+        AD.street,
+        AD.neighborhood,
+        AD.num,
+        AD.city,
+        AD.region,
+        AD.zip_code,
+        AD.type_of_residence,
+        AD.adult_residents,
+        AD.children_residents,
+        AD.has_smokers,
+        H.already_adopted,
+        H.animals_home,
+        H.animals_home_description,
+        H.sick_animals_home,
+        H.add_budget_spend,
+        H.why_want_adopt,
+        H.have_questions,
+        CO.area_code,
+        CO.phone,
+        CO.email,
+        A.id as application_id,
+        A.date_creation,
+        A.status,
+        P.id_image
+      FROM
+        iad.applications AS A
+      JOIN iad.pets AS P ON A.pet_id = P.id
+      JOIN iad.petimages AS PI on PI.id = P.id_image
+      JOIN iad.tutors AS T ON A.tutor_id = T.id
+      JOIN iad.address AS AD ON T.address_id = AD.id
+      JOIN iad.historics AS H ON T.historic_id = H.id
+      JOIN iad.contacts AS CO ON T.contact_id = CO.id
+      WHERE A.id = ${id} OR P.name = '${pet_name}';
     `;
     const data = await connection.query(query);
-    return data.rows[0];
+    return data.rows;
   }
 
   async setStatus(id: number, status: status_type) {
