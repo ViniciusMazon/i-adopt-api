@@ -76,7 +76,7 @@ class Application {
     const query = `
       SELECT
         P.id as pet_id,
-        P.name,
+        P.name as pet_name,
         P.specie,
         P.gender,
         P.size,
