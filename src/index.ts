@@ -7,13 +7,8 @@ import routes from './routes'
 import databaseInit from './database/databaseInit';
 
 const app = express();
-try {
-  async () => {
-    await databaseInit();
-  }
-} catch (err) {
-  console.log('ERRO >>>>>>>>>', err);
-}
+
+// databaseInit();
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +18,7 @@ app.use(
   '/files',
   express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
 );
+
 app.use(routes);
 
 app.listen(4000);

@@ -14,7 +14,6 @@ interface IUserUpdate {
   first_name: string,
   last_name: string,
   email: string,
-  // hash_password: string
 }
 
 class User {

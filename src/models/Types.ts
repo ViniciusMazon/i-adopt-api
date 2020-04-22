@@ -1,14 +1,16 @@
 import connection from '../database/connection';
 
 class Types {
+
   async createTypes() {
+
     const query = `
-    create type type_residence as enum ('house','apartment','farm');
-    create type status_type as enum ('accept', 'new', 'adopted', 'canceled', 'rejected');
-    create type marital_status as enum ('single', 'married', 'divorced', 'widower');
-    create type specie_type as enum ('dog', 'cat');
-    create type gender_type as enum ('male', 'female');
-    create type size_type as enum ('small', 'medium', 'big');
+      CREATE TYPE type_residence AS ENUM ('house','apartment','farm');
+      CREATE TYPE status_type AS ENUM ('accept', 'new', 'adopted', 'canceled', 'rejected');
+      CREATE TYPE marital_status AS ENUM ('single', 'married', 'divorced', 'widower');
+      CREATE TYPE specie_type AS ENUM ('dog', 'cat');
+      CREATE TYPE gender_type AS ENUM ('male', 'female');
+      CREATE TYPE size_type AS ENUM ('small', 'medium', 'big');
     `;
 
     await connection.query(query);

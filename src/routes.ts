@@ -27,27 +27,27 @@ const organizationReport = new OrganizationReportController();
 
 routes.post('/login', session.login);
 
-routes.get('/users', jwt.verify, user.index); //Admin
-routes.post('/users', user.store); //Public
-routes.put('/users', jwt.verify, user.update); //Admin
-routes.delete('/users', jwt.verify, user.destroy); //Admin
-routes.get('/users/credentials', user.show); //Admin
+routes.get('/users', jwt.verify, user.index);
+routes.post('/users', user.store);
+routes.put('/users', jwt.verify, user.update);
+routes.delete('/users', jwt.verify, user.destroy);
+routes.get('/users/credentials', user.show);
 
 routes.post('/petsimage', jwt.verify, multer(multerConfig).single('file'), petImage.store);
 routes.delete('/petsimage', jwt.verify, petImage.destroy);
 
 
-routes.post('/pets', jwt.verify, pet.store); //Restricted
-routes.get('/pets', jwt.verify, pet.index); //Restricted
-routes.get('/pets/details', jwt.verify, pet.show); //Restricted
-routes.put('/pets', jwt.verify, pet.update); //Restricted
-routes.delete('/pets', jwt.verify, pet.destroy); //Restricted
+routes.post('/pets', jwt.verify, pet.store);
+routes.get('/pets', jwt.verify, pet.index);
+routes.get('/pets/details', jwt.verify, pet.show);
+routes.put('/pets', jwt.verify, pet.update);
+routes.delete('/pets', jwt.verify, pet.destroy);
 
-routes.post('/organization', organization.store); //Public
-routes.get('/organization', organization.index); //Public
-routes.get('/organization/details', organization.show); //Public
-routes.put('/organization', jwt.verify, organization.update); //Admin
-routes.delete('/organization', jwt.verify, organization.destroy); //Admin
+routes.post('/organization', organization.store);
+routes.get('/organization', organization.index);
+routes.get('/organization/details', organization.show);
+routes.put('/organization', jwt.verify, organization.update);
+routes.delete('/organization', jwt.verify, organization.destroy);
 
 routes.post('/tutors', tutor.store);
 routes.get('/tutors', jwt.verify, tutor.show);
@@ -59,6 +59,6 @@ routes.put('/applications/status', jwt.verify, application.update);
 
 routes.get('/report/organization', jwt.verify, organizationReport.show);
 
-routes.get('/ping', (req, res) => res.send('pong')); //Public (test route)
+routes.get('/ping', (req, res) => res.send('pong'));
 
 export default routes;
